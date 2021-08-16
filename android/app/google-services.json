@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "351931343931",
+    "firebase_url": "https://futbol-first.firebaseio.com",
+    "project_id": "futbol-first",
+    "storage_bucket": "futbol-first.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:351931343931:android:a8d1e10bb79e36ae07a81e",
+        "android_client_info": {
+          "package_name": "com.futbol.first"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "351931343931-r51emapohmpq5e6s6028de7tegp55g0i.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.futbol.first",
+            "certificate_hash": "cb19abda925dbbe1e15e8db71fe14e80f65c21f4"
+          }
+        },
+        {
+          "client_id": "351931343931-7o4d9iirlpmtgdcfi8oao6m6venpfm2m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDY1bgtNcA-vfhXx-q2deBRiMNYAdEXi3g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "351931343931-7o4d9iirlpmtgdcfi8oao6m6venpfm2m.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
