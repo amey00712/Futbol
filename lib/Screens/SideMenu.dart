@@ -97,7 +97,7 @@ class T2DrawerState extends State<T2Drawer> {
                 alignment: Alignment.centerLeft,
                 child: Image.network(
                   img,
-                  color: Colors.white,
+                  //color: Colors.white,
                 ))),
       );
     } else if (title != "" && img != "") {
