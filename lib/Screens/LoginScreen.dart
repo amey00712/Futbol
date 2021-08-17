@@ -106,7 +106,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
-        padding: EdgeInsets.fromLTRB(28, 40, 28, 0),
+        padding: EdgeInsets.fromLTRB(20, 40, 20, 0),
         child: Column(
           children: [
             Container(
