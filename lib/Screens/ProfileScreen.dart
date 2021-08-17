@@ -100,18 +100,19 @@ class _ProfileScreenState extends State<ProfileScreen>
             ),
           ),
           SizedBox(height: 20),
-          text("Mobile No."),
-          SizedBox(height: 10),
-          this.getTF(this.phone ?? ""),
-          SizedBox(height: 20),
           text("Full Name"),
           SizedBox(height: 10),
           this.getTF(this.name ?? ""),
           SizedBox(height: 20),
+          text("Mobile No."),
+          SizedBox(height: 10),
+          this.getTF(this.phone ?? ""),
+
+          SizedBox(height: 20),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              text("Notification", textColor: nav_bar_color),
+              text("Notifications", textColor: nav_bar_color,fontWeight: FontWeight.bold),
               Switch(
                   value: this.switchValue,
                   onChanged: (val) {
