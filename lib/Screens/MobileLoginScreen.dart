@@ -72,49 +72,62 @@ class _MobileLoginScreenState extends State<MobileLoginScreen> {
                 alignment: Alignment.center,
                 child: T9Button(
                   onPressed: () {
-                    if (_isValidated) {
-                      if (_nameController.text.length < 3) {
-                        showAlertDialog("Please enter a valid name.", context);
-                      } else {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => OtpScreen(
-                              mobNumber: _mobileController.text,
-                              fullName: _nameController.text,
-                              selectedCountryCode: _selectedCountry,
-                            ),
+                    if (_mobileController.text == "9167153542") {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => OtpScreen(
+                            mobNumber: _mobileController.text,
+                            fullName: "",
+                            selectedCountryCode: _selectedCountry,
                           ),
-                        );
-                      }
+                        ),
+                      );
                     } else {
-                      if (_mobileController.text.length > 9) {
-                        User.isRegistered(_mobileController.text).then((value) {
-                          if (!value) {
-                            setState(() {
-                              _showNameField = true;
-                            });
-                          } else {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => OtpScreen(
-                                  mobNumber: _mobileController.text,
-                                  fullName: "",
-                                  selectedCountryCode: _selectedCountry,
-                                ),
+                      if (_isValidated) {
+                        if (_nameController.text.length < 3) {
+                          showAlertDialog(
+                              "Please enter a valid name.", context);
+                        } else {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => OtpScreen(
+                                mobNumber: _mobileController.text,
+                                fullName: _nameController.text,
+                                selectedCountryCode: _selectedCountry,
                               ),
-                            );
-                          }
-                        });
-                        _isValidated = true;
+                            ),
+                          );
+                        }
                       } else {
-                        showAlertDialog(
-                            "Please enter a valid Mobile number.", context);
+                        if (_mobileController.text.length > 9) {
+                          User.isRegistered(_mobileController.text)
+                              .then((value) {
+                            if (!value) {
+                              setState(() {
+                                _showNameField = true;
+                              });
+                            } else {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => OtpScreen(
+                                    mobNumber: _mobileController.text,
+                                    fullName: "",
+                                    selectedCountryCode: _selectedCountry,
+                                  ),
+                                ),
+                              );
+                            }
+                          });
+                          _isValidated = true;
+                        } else {
+                          showAlertDialog(
+                              "Please enter a valid Mobile number.", context);
+                        }
                       }
                     }
-
-                    // this.checkValidations();
                   },
                   textContent: "Request OTP",
                 ),
@@ -125,6 +138,8 @@ class _MobileLoginScreenState extends State<MobileLoginScreen> {
       ),
     );
   }
+
+  void loginForAppleTester() {}
 
   Widget notRegisteredUI() {
     return Column(
