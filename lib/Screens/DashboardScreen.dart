@@ -455,17 +455,9 @@ class _DashboardScreenState extends State<DashboardScreen>
   }
 
   BoxFit getImageType() {
-    var height = MediaQuery.of(context).size.height;
 
     return BoxFit.contain;
-    /* if ( height < 1020) {
-      return BoxFit.contain;
-    } else if (height >= 1020) {
-      return BoxFit.cover;
-    } else {
-      return BoxFit.cover;
-    } */
-    return BoxFit.contain;
+
   }
 
   Widget getHeaderImg(String thumb, String img, String name, String content,
