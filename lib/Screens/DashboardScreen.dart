@@ -240,7 +240,7 @@ class _DashboardScreenState extends State<DashboardScreen>
                           builder: (context) => ProfileScreen()));
                 },
                 child: this.profImg != "" ? CircleAvatar(
-                  radius: 20,
+                  radius: 15,
                   backgroundColor: nav_bar_color,
                   backgroundImage: NetworkImage(this.profImg),
                 ) : Icon(Icons.person_rounded),

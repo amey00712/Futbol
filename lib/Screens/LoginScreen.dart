@@ -1,10 +1,12 @@
+import 'dart:developer';
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:newsFlutter/Screens/DashboardScreen.dart';
 import 'package:newsFlutter/Screens/MobileLoginScreen.dart';
 import 'package:newsFlutter/Utils/AuthService.dart';
 import 'package:newsFlutter/Utils/Colors.dart';
-import 'package:newsFlutter/Utils/User.dart';
+import 'package:newsFlutter/Utils/User.dart' as UserModel;
 import 'package:newsFlutter/Utils/Widgets.dart';
 import 'package:flutter/cupertino.dart';
 
@@ -37,7 +39,7 @@ class _LoginScreenState extends State<LoginScreen> {
         .signIn(_emailController.text, _passwordController.text)
         .then((value) {
       if (value == "isSuccess") {
-        User.saveLogIn(true);
+        UserModel.User.saveLogIn(true);
         Navigator.pushReplacement(context,
             MaterialPageRoute(builder: (context) => DashboardScreen()));
       } else {
@@ -57,8 +59,8 @@ class _LoginScreenState extends State<LoginScreen> {
           "",
           _userData.user.photoURL,
           "google");
-      User.saveLogIn(true);
-      User.saveUserID(_userData.user.uid);
+      UserModel.User.saveLogIn(true);
+      UserModel.User.saveUserID(_userData.user.uid);
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => DashboardScreen()));
     }
@@ -68,16 +70,17 @@ class _LoginScreenState extends State<LoginScreen> {
     var _userData = await _authService.signInWithFacebook();
 
     if (_userData != null) {
-      print(_userData);
+
+      List<UserInfo> _userInfo = _userData.user.providerData;
       _authService.saveDataToDatabase(
           _userData.user.uid,
           _userData.user.displayName,
-          _userData.user.email,
+          _userInfo[0].email,
           "",
           _userData.user.photoURL,
           "facebook");
-      User.saveLogIn(true);
-      User.saveUserID(_userData.user.uid);
+      UserModel.User.saveLogIn(true);
+      UserModel.User.saveUserID(_userData.user.uid);
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => DashboardScreen()));
     }
@@ -94,8 +97,8 @@ class _LoginScreenState extends State<LoginScreen> {
           "",
           _userData.user.photoURL,
           "apple");
-      User.saveLogIn(true);
-      User.saveUserID(_userData.user.uid);
+      UserModel.User.saveLogIn(true);
+      UserModel.User.saveUserID(_userData.user.uid);
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => DashboardScreen()));
     }

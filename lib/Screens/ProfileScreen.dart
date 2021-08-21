@@ -107,21 +107,29 @@ class _ProfileScreenState extends State<ProfileScreen>
           text("Mobile No."),
           SizedBox(height: 10),
           this.getTF(this.phone ?? ""),
-
-          SizedBox(height: 20),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              text("Notifications", textColor: nav_bar_color,fontWeight: FontWeight.bold),
-              Switch(
-                  value: this.switchValue,
-                  onChanged: (val) {
-                    AppSettings.openNotificationSettings();
-                  }),
-            ],
-          ),
+          this.notificationView(),
         ],
       ),
+    );
+  }
+
+  Widget notificationView() {
+    return Column(
+      children: [
+        SizedBox(height: 20),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            text("Notifications",
+                textColor: nav_bar_color, fontWeight: FontWeight.bold),
+            Switch(
+                value: this.switchValue,
+                onChanged: (val) {
+                  AppSettings.openNotificationSettings();
+                }),
+          ],
+        ),
+      ],
     );
   }
 
@@ -177,6 +185,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                   text("Email"),
                   SizedBox(height: 10),
                   this.getTF(this.email ?? ""),
+                  this.notificationView(),
                 ],
               ),
             ),
@@ -233,7 +242,7 @@ class _ProfileScreenState extends State<ProfileScreen>
     // set up the AlertDialog
     AlertDialog alert = AlertDialog(
       title: Text("Alert"),
-      content: Text("Are you Sure, You want to Logout ?"),
+      content: Text("Are you sure you want to log out?"),
       actions: [
         cancelButton,
         continueButton,
