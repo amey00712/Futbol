@@ -73,7 +73,6 @@ class _DashboardScreenState extends State<DashboardScreen>
     this.showNewDesign = _remoteConfig.getBool('showNewDesign');
     this.adClicks = _remoteConfig.getString("adClicks");
     this.isUnderMaintainance = _remoteConfig.getBool('isUnderMaintainance');
-
   }
 
   void initVideoAd(bool click) {
@@ -97,7 +96,6 @@ class _DashboardScreenState extends State<DashboardScreen>
 
     // FirebaseAdMob.instance.initialize(appId: AdManager.appId);
 
-
     WidgetsBinding.instance.addObserver(this);
 
     WidgetsFlutterBinding.ensureInitialized();
@@ -107,8 +105,6 @@ class _DashboardScreenState extends State<DashboardScreen>
 
     _tabController = new TabController(length: 4, vsync: this);
     _tabController.addListener(_setActiveTabIndex);
-
-
 
     this.callAPI();
 
@@ -223,7 +219,7 @@ class _DashboardScreenState extends State<DashboardScreen>
       transverseWidget(),
     ];
 
-    return Scaffold (
+    return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
         centerTitle: true,
@@ -233,18 +229,12 @@ class _DashboardScreenState extends State<DashboardScreen>
               right: 15,
             ),
             child: GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => ProfileScreen()));
-                },
-                child: this.profImg != "" ? CircleAvatar(
-                  radius: 15,
-                  backgroundColor: nav_bar_color,
-                  backgroundImage: NetworkImage(this.profImg),
-                ) : Icon(Icons.person_rounded),
-              ),
+              onTap: () {
+                Navigator.push(context,
+                    MaterialPageRoute(builder: (context) => ProfileScreen()));
+              },
+              child: getImg(),
+            ),
           ),
         ],
         title: Container(
@@ -257,72 +247,94 @@ class _DashboardScreenState extends State<DashboardScreen>
         ),
         backgroundColor: nav_bar_color,
       ),
-      body: this.isUnderMaintainance == true ? Container(
-        width: MediaQuery.of(context).size.width,
-        color: Colors.black,
-        padding: EdgeInsets.all(20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.report_gmailerrorred_outlined,color: Colors.white,size: 50,),
-            Text('The app is currently undergoing maintenance.',style: TextStyle(color: Colors.white,fontSize: 20),textAlign: TextAlign.center,),
-          ],
-        ),
-      ): Container(
-        color: background_color,
-        child: Stack(
-          children: [
-            TabBarView(
-              controller: _tabController,
-              children: tabs,
-            ),
-            Positioned(
-              left: 0,
-              right: 0,
-              bottom: 0,
-              child: BubbleBottomBar(
-                backgroundColor: Colors.transparent,
-                opacity: .4,
-                currentIndex: selectedIndex,
-                elevation: 8,
-                onTap: (index) {
-                  setState(() {
-                    selectedIndex = index;
-                    _tabController.index = selectedIndex;
-                  });
-                },
-                //new
-                // hasNotch: false,
-                //new
-                //  hasInk: true,
-                //new, gives a cute ink effect
-                inkColor: nav_bar_color,
-                //optional, uses theme color if not specified
-                items: <BubbleBottomBarItem>[
-                  tab("images/homeIcon.png", "Home"),
-                  tab("images/newsIcon.png", "News"),
-                  tab("images/videoIcon.png", "Videos"),
-                  tab("images/transferIcon.png", "Transfers"),
+      body: this.isUnderMaintainance == true
+          ? Container(
+              width: MediaQuery.of(context).size.width,
+              color: Colors.black,
+              padding: EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.report_gmailerrorred_outlined,
+                    color: Colors.white,
+                    size: 50,
+                  ),
+                  Text(
+                    'The app is currently undergoing maintenance.',
+                    style: TextStyle(color: Colors.white, fontSize: 20),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            )
+          : Container(
+              color: background_color,
+              child: Stack(
+                children: [
+                  TabBarView(
+                    controller: _tabController,
+                    children: tabs,
+                  ),
+                  Positioned(
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    child: BubbleBottomBar(
+                      backgroundColor: Colors.transparent,
+                      opacity: .4,
+                      currentIndex: selectedIndex,
+                      elevation: 8,
+                      onTap: (index) {
+                        setState(() {
+                          selectedIndex = index;
+                          _tabController.index = selectedIndex;
+                        });
+                      },
+                      //new
+                      // hasNotch: false,
+                      //new
+                      //  hasInk: true,
+                      //new, gives a cute ink effect
+                      inkColor: nav_bar_color,
+                      //optional, uses theme color if not specified
+                      items: <BubbleBottomBarItem>[
+                        tab("images/homeIcon.png", "Home"),
+                        tab("images/newsIcon.png", "News"),
+                        tab("images/videoIcon.png", "Videos"),
+                        tab("images/transferIcon.png", "Transfers"),
+                      ],
+                    ),
+                  ),
+
+                  // if (!bannerIsLoaded)
+                  if (showBannerAd)
+                    Positioned(
+                      bottom: 50,
+                      left: 0,
+                      right: 0,
+                      child: Container(
+                        child: BannerAdWidget(AdSize.banner),
+                      ),
+                    ),
                 ],
               ),
             ),
-
-            // if (!bannerIsLoaded)
-            if (showBannerAd)
-              Positioned(
-                bottom: 50,
-                left: 0,
-                right: 0,
-                child: Container(
-                  child: BannerAdWidget(AdSize.banner),
-                ),
-              ),
-          ],
-        ),
-      ),
       drawer: T2Drawer(),
     );
+  }
+
+  Widget getImg() {
+    if (this.profImg != "") {
+      return CircleAvatar(
+        radius: 15,
+        backgroundColor: nav_bar_color,
+        backgroundImage: NetworkImage(this.profImg),
+      );
+    } else {
+      return Icon(Icons.person_rounded);
+    }
   }
 
   void callAPI() async {
@@ -455,9 +467,7 @@ class _DashboardScreenState extends State<DashboardScreen>
   }
 
   BoxFit getImageType() {
-
     return BoxFit.contain;
-
   }
 
   Widget getHeaderImg(String thumb, String img, String name, String content,
@@ -804,14 +814,14 @@ class _DashboardScreenState extends State<DashboardScreen>
   }
 
   Widget articleWidget() {
-    if (showNewDesign == true){
+    if (showNewDesign == true) {
       return articleNew();
-    }else{
+    } else {
       return articleOld();
     }
   }
 
-  Widget articleOld(){
+  Widget articleOld() {
     final double itemHeight = 200;
     final double itemWidth = MediaQuery.of(context).size.width / 3;
 
@@ -836,7 +846,8 @@ class _DashboardScreenState extends State<DashboardScreen>
               this.articlesData[index]["files_name"],
               this.articlesData[index]["files_title"],
               this.articlesData[index]["files_content"],
-              this.articlesData[index]["files_thumb"],);
+              this.articlesData[index]["files_thumb"],
+            );
           },
           itemCount: this.articlesData == null ? 0 : this.articlesData.length,
         ),
@@ -844,8 +855,7 @@ class _DashboardScreenState extends State<DashboardScreen>
     );
   }
 
-  Widget articleNew(){
-
+  Widget articleNew() {
     var size = MediaQuery.of(context).size;
 
     final double itemHeight = (size.height - kToolbarHeight - 24) / 2;
@@ -861,29 +871,29 @@ class _DashboardScreenState extends State<DashboardScreen>
               return Padding(
                 padding: EdgeInsets.fromLTRB(15, 20, 15, 0),
                 child: this.articlesData[index]["files_type"] == "himg" ||
-                    this.articlesData[index]["files_type"] == "hvid"
+                        this.articlesData[index]["files_type"] == "hvid"
                     ? this.getHeaderImg(
-                    this.articlesData[index]["files_thumb"],
-                    this.articlesData[index]["files_name"],
-                    this.articlesData[index]["files_title"],
-                    this.articlesData[index]["files_content"],
-                    this.articlesData[index]["files_type"],
-                    this.articlesData[index]["post_srcimg"],
-                    this.articlesData[index]["post_appurl"])
+                        this.articlesData[index]["files_thumb"],
+                        this.articlesData[index]["files_name"],
+                        this.articlesData[index]["files_title"],
+                        this.articlesData[index]["files_content"],
+                        this.articlesData[index]["files_type"],
+                        this.articlesData[index]["post_srcimg"],
+                        this.articlesData[index]["post_appurl"])
                     : this.getHomeContainer(
-                    this.articlesData[index]["files_type"],
-                    this.articlesData[index]["files_name"],
-                    this.articlesData[index]["files_title"],
-                    this.articlesData[index]["files_content"],
-                    this.articlesData[index]["files_thumb"],
-                    this.articlesData[index]["post_srcimg"],
-                    this.articlesData[index]["post_appurl"]),
+                        this.articlesData[index]["files_type"],
+                        this.articlesData[index]["files_name"],
+                        this.articlesData[index]["files_title"],
+                        this.articlesData[index]["files_content"],
+                        this.articlesData[index]["files_thumb"],
+                        this.articlesData[index]["post_srcimg"],
+                        this.articlesData[index]["post_appurl"]),
               );
             }),
       ),
     );
   }
- /* Widget articleWidget() {
+  /* Widget articleWidget() {
     /* final double itemHeight = 200;
     final double itemWidth = MediaQuery.of(context).size.width / 3; */
 
@@ -980,14 +990,14 @@ class _DashboardScreenState extends State<DashboardScreen>
   }
 
   Widget videoWidget() {
-    if(showNewDesign == true){
+    if (showNewDesign == true) {
       return videoNew();
-    }else{
+    } else {
       return videoOld();
     }
   }
 
-  Widget videoOld(){
+  Widget videoOld() {
     final double itemHeight = 200;
     final double itemWidth = MediaQuery.of(context).size.width / 3;
     return Container(
@@ -1020,8 +1030,7 @@ class _DashboardScreenState extends State<DashboardScreen>
     );
   }
 
-  Widget videoNew(){
-
+  Widget videoNew() {
     var size = MediaQuery.of(context).size;
 
     /*24 is for notification bar on Android*/
@@ -1038,23 +1047,23 @@ class _DashboardScreenState extends State<DashboardScreen>
               return Padding(
                 padding: EdgeInsets.fromLTRB(15, 20, 15, 0),
                 child: this.videosData[index]["files_type"] == "himg" ||
-                    this.videosData[index]["files_type"] == "hvid"
+                        this.videosData[index]["files_type"] == "hvid"
                     ? this.getHeaderImg(
-                    this.videosData[index]["files_thumb"],
-                    this.videosData[index]["files_name"],
-                    this.videosData[index]["files_title"],
-                    this.videosData[index]["files_content"],
-                    this.videosData[index]["files_type"],
-                    this.videosData[index]["post_srcimg"],
-                    this.videosData[index]["post_appurl"])
+                        this.videosData[index]["files_thumb"],
+                        this.videosData[index]["files_name"],
+                        this.videosData[index]["files_title"],
+                        this.videosData[index]["files_content"],
+                        this.videosData[index]["files_type"],
+                        this.videosData[index]["post_srcimg"],
+                        this.videosData[index]["post_appurl"])
                     : this.getHomeContainer(
-                    this.videosData[index]["files_type"],
-                    this.videosData[index]["files_name"],
-                    this.videosData[index]["files_title"],
-                    this.videosData[index]["files_content"],
-                    this.videosData[index]["files_thumb"],
-                    this.videosData[index]["post_srcimg"],
-                    this.videosData[index]["post_appurl"]),
+                        this.videosData[index]["files_type"],
+                        this.videosData[index]["files_name"],
+                        this.videosData[index]["files_title"],
+                        this.videosData[index]["files_content"],
+                        this.videosData[index]["files_thumb"],
+                        this.videosData[index]["post_srcimg"],
+                        this.videosData[index]["post_appurl"]),
               );
             }),
       ),

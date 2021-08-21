@@ -170,10 +170,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   this.getImage(),
-                  SizedBox(height: 20),
-                  text("Full Name"),
-                  SizedBox(height: 10),
-                  this.getTF(this.name ?? ""),
+                  this.getFullName(),
                   SizedBox(height: 20),
                   text("Email"),
                   SizedBox(height: 10),
@@ -188,6 +185,23 @@ class _ProfileScreenState extends State<ProfileScreen>
     );
   }
 
+  Widget getFullName(){
+    if (this.type != "apple"){
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 20),
+          text("Full Name"),
+          SizedBox(height: 10),
+          this.getTF(this.name ?? ""),
+        ],
+      );
+    }else{
+      return Container();
+    }
+
+  }
+
   Widget getImage() {
     var link = this.profImg;
 
@@ -196,10 +210,14 @@ class _ProfileScreenState extends State<ProfileScreen>
     }
     return Align(
       alignment: Alignment.center,
-      child: CircleAvatar(
+      child: this.profImg != "" ?  CircleAvatar(
         radius: 70,
         backgroundColor: nav_bar_color,
         backgroundImage: NetworkImage(link),
+      ) : Icon(
+        Icons.person_rounded,
+        size: 100,
+        color: Colors.grey,
       ),
     );
   }

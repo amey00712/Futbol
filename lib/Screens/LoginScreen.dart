@@ -68,9 +68,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   signInWithFacebook() async {
     var _userData = await _authService.signInWithFacebook();
-log(_userData.toString());
-    if (_userData != null) {
 
+    if (_userData != null) {
       List<UserInfo> _userInfo = _userData.user.providerData;
       _authService.saveDataToDatabase(
           _userData.user.uid,
@@ -84,18 +83,22 @@ log(_userData.toString());
       Navigator.pushReplacement(
           context, MaterialPageRoute(builder: (context) => DashboardScreen()));
     }
+
   }
 
   signInWithApple() async {
     var _userData = await _authService.signInWithApple();
+    log(_userData.toString());
 
     if (_userData != null) {
+      List<UserInfo> _userInfo = _userData.user.providerData;
+
       _authService.saveDataToDatabase(
           _userData.user.uid,
           _userData.user.displayName,
-          _userData.user.email,
+          _userInfo[0].email,
           "",
-          _userData.user.photoURL,
+          "",
           "apple");
       UserModel.User.saveLogIn(true);
       UserModel.User.saveUserID(_userData.user.uid);
