@@ -169,14 +169,7 @@ class _ProfileScreenState extends State<ProfileScreen>
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
-                  Align(
-                    alignment: Alignment.center,
-                    child: CircleAvatar(
-                      radius: 70,
-                      backgroundColor: nav_bar_color,
-                      backgroundImage: NetworkImage(this.profImg),
-                    ),
-                  ),
+                  this.getImage(),
                   SizedBox(height: 20),
                   text("Full Name"),
                   SizedBox(height: 10),
@@ -192,6 +185,22 @@ class _ProfileScreenState extends State<ProfileScreen>
           ),
         ),
       ],
+    );
+  }
+
+  Widget getImage() {
+    var link = this.profImg;
+
+    if (this.type == "facebook") {
+      link = link + "?width=140&height=140";
+    }
+    return Align(
+      alignment: Alignment.center,
+      child: CircleAvatar(
+        radius: 70,
+        backgroundColor: nav_bar_color,
+        backgroundImage: NetworkImage(link),
+      ),
     );
   }
 

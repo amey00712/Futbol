@@ -68,7 +68,7 @@ class _LoginScreenState extends State<LoginScreen> {
 
   signInWithFacebook() async {
     var _userData = await _authService.signInWithFacebook();
-
+log(_userData.toString());
     if (_userData != null) {
 
       List<UserInfo> _userInfo = _userData.user.providerData;
