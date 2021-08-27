@@ -328,9 +328,12 @@ class _DashboardScreenState extends State<DashboardScreen>
   Widget getImg() {
     if (this.profImg != "") {
       return CircleAvatar(
-        radius: 15,
-        backgroundColor: nav_bar_color,
-        backgroundImage: NetworkImage(this.profImg),
+        radius: 16,
+        child: ClipOval(
+          child: Image.network(
+            this.profImg,
+          ),
+        ),
       );
     } else {
       return Icon(Icons.person_rounded);
