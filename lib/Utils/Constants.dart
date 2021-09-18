@@ -17,3 +17,5 @@ const textSizeXLarge = 30.0;
 var isFromPushNotification = false;
 var pushNotificationType = "";
 var pushNotificationID = "";
+
+const appleNumber = "9167153543";

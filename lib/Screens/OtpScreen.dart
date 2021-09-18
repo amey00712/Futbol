@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:newsFlutter/Screens/DashboardScreen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:newsFlutter/Utils/Colors.dart';
+import 'package:newsFlutter/Utils/Constants.dart';
 import 'package:newsFlutter/Utils/User.dart' as UserData;
 import 'package:newsFlutter/Utils/AuthService.dart';
 import 'package:newsFlutter/Utils/Widgets.dart';
@@ -114,7 +115,7 @@ class _OtpViewState extends State<OtpScreen> {
                       width: double.infinity,
                       child: ElevatedButton(
                         onPressed: () {
-                          if(widget.mobNumber == "9167153542"){
+                          if(widget.mobNumber == appleNumber){
                             this.forAppleTesting();
                           }else{
                             this.validateOtp();

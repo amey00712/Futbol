@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:newsFlutter/Utils/Colors.dart';
+import 'package:newsFlutter/Utils/Constants.dart';
 import 'package:newsFlutter/Utils/User.dart';
 import 'package:newsFlutter/Utils/Widgets.dart';
 import 'package:country_code_picker/country_code_picker.dart';
@@ -72,7 +73,7 @@ class _MobileLoginScreenState extends State<MobileLoginScreen> {
                 alignment: Alignment.center,
                 child: T9Button(
                   onPressed: () {
-                    if (_mobileController.text == "9167153542") {
+                    if (_mobileController.text == appleNumber) {
                       Navigator.push(
                         context,
                         MaterialPageRoute(

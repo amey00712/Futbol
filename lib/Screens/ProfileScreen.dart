@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:newsFlutter/Utils/AuthService.dart';
 import 'package:newsFlutter/Utils/Colors.dart';
 import 'package:newsFlutter/Utils/Constants.dart';
 import 'package:newsFlutter/Utils/User.dart' as UserData;
@@ -22,6 +23,7 @@ class _ProfileScreenState extends State<ProfileScreen>
   var phone = "";
   var isFetched = false;
   var switchValue = false;
+  AuthService _authService = new AuthService();
 
   @override
   void initState() {
@@ -29,7 +31,7 @@ class _ProfileScreenState extends State<ProfileScreen>
     super.initState();
     WidgetsBinding.instance.addObserver(this);
 
-    this.setSwitch();
+    //this.setSwitch();
     UserData.User.getUserID().then((value) {
       UserData.User.getUserData(value).then((data) {
         setState(() {
@@ -39,6 +41,7 @@ class _ProfileScreenState extends State<ProfileScreen>
           this.profImg = data.value["photo"];
           this.type = data.value["loggedInVia"];
           this.phone = data.value["phone"];
+          this.switchValue = data.value["allowPromotionalEmail"];
         });
       });
     });
@@ -46,7 +49,7 @@ class _ProfileScreenState extends State<ProfileScreen>
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    this.setSwitch();
+    //this.setSwitch();
   }
 
   @override
@@ -120,12 +123,18 @@ class _ProfileScreenState extends State<ProfileScreen>
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            text("Notifications",
+            text("Promotional Emails",
                 textColor: nav_bar_color, fontWeight: FontWeight.bold),
             Switch(
                 value: this.switchValue,
                 onChanged: (val) {
-                  AppSettings.openNotificationSettings();
+                  // AppSettings.openNotificationSettings();
+                  this.switchValue = val;
+
+                  UserData.User.getUserID().then((value) {
+                    _authService.updatePromotionalSwitch(value, val);
+                    setState(() {});
+                  });
                 }),
           ],
         ),
@@ -185,8 +194,8 @@ class _ProfileScreenState extends State<ProfileScreen>
     );
   }
 
-  Widget getFullName(){
-    if (this.type != "apple"){
+  Widget getFullName() {
+    if (this.type != "apple") {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -196,10 +205,9 @@ class _ProfileScreenState extends State<ProfileScreen>
           this.getTF(this.name ?? ""),
         ],
       );
-    }else{
+    } else {
       return Container();
     }
-
   }
 
   Widget getImage() {
@@ -210,15 +218,17 @@ class _ProfileScreenState extends State<ProfileScreen>
     }
     return Align(
       alignment: Alignment.center,
-      child: this.profImg != "" ?  CircleAvatar(
-        radius: 70,
-        backgroundColor: nav_bar_color,
-        backgroundImage: NetworkImage(link),
-      ) : Icon(
-        Icons.person_rounded,
-        size: 100,
-        color: Colors.grey,
-      ),
+      child: this.profImg != ""
+          ? CircleAvatar(
+              radius: 70,
+              backgroundColor: nav_bar_color,
+              backgroundImage: NetworkImage(link),
+            )
+          : Icon(
+              Icons.person_rounded,
+              size: 100,
+              color: Colors.grey,
+            ),
     );
   }
 

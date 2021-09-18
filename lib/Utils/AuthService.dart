@@ -99,27 +99,26 @@ class AuthService {
     }
   }
 
-  /*loginViaPhone() async {
-    await FirebaseAuth.instance.verifyPhoneNumber(
-      phoneNumber: '+919167153542',
-      verificationCompleted: (PhoneAuthCredential credential) {},
-      verificationFailed: (FirebaseAuthException e) {},
-      codeSent: (String verificationId, int resendToken) {},
-      codeAutoRetrievalTimeout: (String verificationId) {},
-    );
-  } */
 
   saveDataToDatabase(String uid, String name, String email,String phone ,String photo,String via) {
     DatabaseReference _userRef =
         FirebaseDatabase.instance.reference().child('users');
 
-    Map userData = {"name": name, "email": email, "phone": phone, "photo":photo, "loggedInVia": via};
+    Map userData = {"name": name, "email": email, "phone": phone, "photo":photo, "loggedInVia": via,"allowPromotionalEmail":true};
 
     _userRef.child(uid).set(userData).then((value) {
       print("success");
     }).catchError((e){
       print(e);
     });
+  }
+
+  updatePromotionalSwitch(
+      String uid,bool allowPromotionalEmail) async {
+    DatabaseReference _userRef =
+    FirebaseDatabase.instance.reference().child('users');
+
+    await _userRef.child(uid).update({"allowPromotionalEmail":allowPromotionalEmail});
   }
 
   /// Generates a cryptographically secure random nonce, to be included in a
