@@ -28,7 +28,7 @@ dependencies:
   cupertino_icons:
   flutter_html:
     git: 'https://github.com/Sub6Resources/flutter_html.git'
-  video_thumbnail: ^0.2.4
+  video_thumbnail: ^0.5.0
   http: 0.13.3
   url_launcher:
   firebase_messaging: ^10.0.2
@@ -43,7 +43,7 @@ dependencies:
   flutter_facebook_auth: ^3.5.0
   sign_in_with_apple: ^3.0.0
   crypto: ^3.0.1
-  notification_permissions: ^0.5.0
+  notification_permissions: ^0.6.1
   app_settings: ^4.1.1
   country_code_picker: ^2.0.2
   #flutter_native_admob: ^2.1.0+3

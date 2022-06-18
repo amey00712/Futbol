@@ -10,10 +10,10 @@ class ApiManager {
 
   Future<dynamic> get(String url) async {
     url = hostName + url + "/format/json";
+    print("URL: $url");
 
     http.Response response = await http.get(Uri.parse(url));
 
-    print("URL: $url");
     log("API Response: ${response.body}");
     return jsonDecode(response.body);
   }
